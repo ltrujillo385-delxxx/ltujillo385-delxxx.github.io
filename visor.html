@@ -5,34 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nova Gol - Visor Pro</title>
     <style>
-        /* Fondo oscuro y centrado */
+        /* Fondo oscuro y estructura en columna para el botón arriba */
         body, html { 
             margin: 0; padding: 0; width: 100%; height: 100%; 
             background: #020617; 
-            display: flex; align-items: center; justify-content: center;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
             font-family: 'Inter', sans-serif;
         }
         
-        /* Contenedor con margen, bordes redondeados y sombra */
-        .contenedor-reproductor { 
-            position: relative; 
-            width: 95%; /* Margen lateral */
-            max-width: 900px; /* Tamaño máximo para que no se vea gigante en PC */
-            aspect-ratio: 16 / 9; /* Mantiene el tamaño de video siempre */
-            background: #000;
-            border-radius: 15px; /* Esquinas redondeadas */
-            overflow: hidden; /* Corta el contenido del iframe para que respete las esquinas */
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5), 0 0 15px rgba(34, 197, 94, 0.2);
-            border: 1px solid #1e293b; /* Borde sutil como tu agenda */
+        /* Contenedor del botón (fuera y arriba) */
+        .header-visor {
+            width: 95%;
+            max-width: 900px;
+            margin-bottom: 12px; /* Espacio entre botón y video */
+            display: flex;
+            justify-content: flex-start;
         }
-        
-        iframe { width: 100%; height: 100%; border: none; }
 
-        /* Botón Fullscreen mejorado */
+        /* Botón Fullscreen (Tus colores y estilos originales) */
         .btn-fullscreen {
-            position: absolute;
-            bottom: 15px;
-            right: 15px;
             z-index: 100;
             background-color: rgba(34, 197, 94, 0.9); /* Verde Nova Gol */
             color: white;
@@ -52,15 +43,32 @@
             transform: scale(1.05);
         }
 
+        /* Contenedor con margen, bordes redondeados y sombra */
+        .contenedor-reproductor { 
+            position: relative; 
+            width: 95%; 
+            max-width: 900px; 
+            aspect-ratio: 16 / 9; 
+            background: #000;
+            border-radius: 15px; 
+            overflow: hidden; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5), 0 0 15px rgba(34, 197, 94, 0.2);
+            border: 1px solid #1e293b;
+        }
+        
+        iframe { width: 100%; height: 100%; border: none; }
+
         .loading-msg { color: #64748b; font-size: 12px; text-align: center; margin-top: 20px; }
     </style>
 </head>
 <body>
 
-    <div class="contenedor-reproductor">
-        <!-- Botón Fullscreen -->
+    <!-- Botón movido arriba -->
+    <div class="header-visor">
         <button class="btn-fullscreen" onclick="toggleFullscreen()">Ampliar Pantalla</button>
+    </div>
 
+    <div class="contenedor-reproductor">
         <div id="player-area" style="width: 100%; height: 100%;">
             <script>
                 const urlParams = new URLSearchParams(window.location.search);
@@ -91,13 +99,12 @@
             }
         }
 
-        // Cambiar estilo del botón al entrar/salir de pantalla completa
         document.addEventListener('fullscreenchange', () => {
-            const btn = document.querySelector('.btn-fullscreen');
+            const btnContainer = document.querySelector('.header-visor');
             if (document.fullscreenElement) {
-                btn.style.display = "none"; // Ocultar botón en modo cine para que no estorbe
+                btnContainer.style.display = "none"; 
             } else {
-                btn.style.display = "block";
+                btnContainer.style.display = "flex";
             }
         });
     </script>
