@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nova Gol - Protector</title>
+    <style>
+        body, html { margin: 0; padding: 0; width: 100%; height: 100%; background: #000; overflow: hidden; }
+        iframe { width: 100%; height: 100%; border: none; }
+    </style>
+</head>
+<body>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const embed = urlParams.get('embed');
+        if (embed) {
+           
+            document.write('<iframe src="reproduc.html?embed=' + embed + '" ' +
+                'sandbox="allow-same-origin allow-scripts allow-presentation" ' +
+                'allowfullscreen="true"></iframe>');
+        } else {
+            document.write('<div style="color:white;text-align:center;padding-top:20px;">Cargando señal...</div>');
+        }
+    </script>
+</body>
+</html>
