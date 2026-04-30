@@ -3,7 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO / ASO Básico -->
     <title>Futbol Libre Live - Pro Agenda</title>
+    <meta name="description" content="Ver fútbol libre hoy en vivo. Agenda deportiva actualizada de partidos online, Liga 1, Champions League y más en futbollibrehoy.com.">
+    <meta name="keywords" content="futbol libre hoy, ver futbol en vivo, agenda deportiva, futbol libre tv, partidos de hoy">
+    <link rel="canonical" href="https://futbollibrehoy.com" />
+
+    <!-- Open Graph (Para cuando compartas el link en redes/WhatsApp) -->
+    <meta property="og:title" content="FUTBOL LIBRE - Agenda Deportiva en Vivo">
+    <meta property="og:description" content="Sigue todos los partidos de hoy en vivo desde futbollibrehoy.com. La mejor calidad de señal online.">
+    <meta property="og:image" content="https://futbollibrehoy.com/icon.png"> <!-- Asegúrate de tener un icono en tu server -->
+    <meta property="og:url" content="https://futbollibrehoy.com">
+    <meta property="og:type" content="website">
+
+    <!-- Meta para WebApp (Android/iOS ASO) -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="Futbol Libre">
+    <meta name="theme-color" content="#020617">
+
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -11,7 +29,6 @@
         body { font-family: 'Inter', sans-serif; background-color: #020617; color: #f8fafc; margin: 0; }
         .match-card { border: 1px solid #1e293b; transition: all 0.3s ease; }
         .open.match-card { border-color: #22c55e; background: #0f172a; }
-        /* Forzamos que el submenú empiece oculto */
         .submenu { display: none; overflow: hidden; }
         .rotate-icon { transition: transform 0.3s; }
         .open .rotate-icon { transform: rotate(180deg); }
@@ -19,6 +36,21 @@
         .img-event { object-fit: contain; width: 90%; height: 90%; }
         .logo-special { filter: drop-shadow(0 0 4px rgba(255,255,255,0.2)); }
     </style>
+
+    <!-- Datos Estructurados (JSON-LD) para que Google entienda que es una Agenda de Eventos -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SportsEvent",
+      "name": "Agenda Futbol Libre Hoy",
+      "description": "Agenda de transmisiones de fútbol en vivo",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Futbol Libre Hoy",
+        "url": "https://futbollibrehoy.com"
+      }
+    }
+    </script>
 </head>
 <body>
 
@@ -40,9 +72,21 @@
                 <p class="text-[10px] uppercase font-bold tracking-[0.2em]">Ordenando agenda...</p>
             </div>
         </div>
+
+        <!-- SEO Content (Texto para buscadores, no estorba al usuario) -->
+        <section class="mt-10 opacity-20 text-[10px] text-center max-w-lg mx-auto leading-relaxed">
+            <p>Bienvenido a <strong>futbollibrehoy.com</strong>, tu fuente principal para ver fútbol libre hoy en vivo. 
+            Accede a la mejor agenda deportiva con horarios de la Liga 1, Premier League, Champions y más eventos 
+            online con señal estable.</p>
+        </section>
     </main>
 
+    <footer class="py-6 text-center">
+        <p class="text-[9px] text-slate-600 uppercase tracking-widest">© 2026 futbollibrehoy.com</p>
+    </footer>
+
     <script>
+        // ... (Tu script original se mantiene exactamente igual) ...
         $(document).ready(function() {
             const API_TARGET = "https://fubolazo.com/agenda.json?v=1.12" + Date.now();
             const PROXIES = [
@@ -173,7 +217,6 @@
                             </div>
                             <svg class="w-5 h-5 text-slate-600 rotate-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
                         </div>
-                        <!-- IMPORTANTE: display: none inline para asegurar que inicie cerrado -->
                         <div class="submenu bg-slate-950/60 border-t border-slate-800/50 p-2.5 grid gap-2" style="display: none;">
                             ${canales.map(c => {
                                 const ca = c.atributos || c.attributes;
@@ -196,17 +239,12 @@
                 $('#proxy-indicator').text("SEÑAL: ONLINE").removeClass('animate-pulse').addClass('text-green-500');
             }
 
-            // Manejador de clicks corregido
             $(document).on('click', '.toggle-btn', function() {
                 const card = $(this).closest('.match-card');
                 const submenu = $(this).next('.submenu');
-
-                // Si se hace click en uno nuevo, cerramos los demás
                 if (!card.hasClass('open')) {
                     $('.match-card').removeClass('open').find('.submenu').slideUp(200);
                 }
-
-                // Animamos el actual
                 card.toggleClass('open');
                 submenu.stop(true, true).slideToggle(250);
             });
